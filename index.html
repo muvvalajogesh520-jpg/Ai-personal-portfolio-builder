@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Personal Portfolio Builder</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#182033;--muted:#667085;--accent:#6957e8;--accent2:#8c7bff;--line:#e5e8f0}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:22px 5%;background:#17152d;color:white;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:1.15rem;letter-spacing:.2px}.brand span{color:#b8adff}
+header p{margin:5px 0 0;color:#d0cde4;font-size:.9rem}
+main{max-width:1240px;margin:28px auto;padding:0 18px;display:grid;grid-template-columns:350px 1fr;gap:22px}
+.panel,.preview{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 30px #202b4b0a}
+.panel{padding:22px;height:max-content}.panel h2{margin:0 0 6px;font-size:1.2rem}.sub{font-size:.88rem;color:var(--muted);line-height:1.5;margin:0 0 18px}
+label{display:block;font-size:.84rem;font-weight:700;margin:13px 0 6px}
+input,textarea,select{width:100%;padding:11px 12px;border:1px solid #d8dcea;border-radius:9px;font:inherit;color:var(--ink);background:white}
+textarea{resize:vertical;min-height:76px}input:focus,textarea:focus,select:focus{outline:2px solid #d8d2ff;border-color:var(--accent)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}
+button{border:0;border-radius:10px;padding:12px 14px;font-weight:750;cursor:pointer;font-size:.9rem}
+.primary{background:var(--accent);color:white}.secondary{background:#eeecff;color:#5142c7}.dark{background:#24243b;color:white}
+.hint{margin-top:14px;background:#f5f3ff;padding:11px;border-radius:10px;color:#5b51a0;font-size:.8rem;line-height:1.45}
+.preview{overflow:hidden;min-width:0}.preview-top{padding:13px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.85rem}
+.dots{display:flex;gap:5px}.dots i{width:8px;height:8px;background:#d4d8e5;border-radius:50%}
+.portfolio{min-height:700px}.hero{padding:58px 7% 50px;background:linear-gradient(135deg,#17152d,#38316d);color:white;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:#9587ff26;right:-60px;top:-75px}
+.pill{display:inline-block;padding:7px 11px;border-radius:99px;background:#ffffff18;border:1px solid #ffffff30;color:#dcd7ff;font-size:.78rem}
+.hero h1{font-size:clamp(2.1rem,5vw,3.8rem);line-height:1.04;margin:18px 0 12px;letter-spacing:-1.8px;position:relative;z-index:1}
+.hero h1 span{color:#bcb1ff}.hero p{max-width:640px;line-height:1.7;color:#e1def4;position:relative;z-index:1}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.hero-actions a{padding:11px 15px;border-radius:9px;text-decoration:none;font-size:.88rem;font-weight:700;background:white;color:#29234f}.hero-actions a:last-child{background:#ffffff18;color:white;border:1px solid #ffffff42}
+.content-section{padding:34px 7%}.section-title{font-size:1.25rem;margin:0 0 18px;letter-spacing:-.3px}.about{line-height:1.75;color:#5b6478;max-width:800px}
+.chips{display:flex;flex-wrap:wrap;gap:9px}.chip{padding:9px 12px;background:#f1efff;color:#5142b9;border-radius:9px;font-size:.86rem;font-weight:650}
+.project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.project{border:1px solid var(--line);padding:17px;border-radius:13px;background:#fff}.project h3{margin:0 0 8px;font-size:1rem}.project p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.6}
+.education{padding:15px 17px;border-left:3px solid var(--accent);background:#f8f7ff;border-radius:0 10px 10px 0}.education strong{display:block;margin-bottom:5px}.education span{color:var(--muted);font-size:.9rem}
+.contact{background:#f8f7ff;border-radius:14px;padding:22px;line-height:1.8}.contact a{color:#5947d3;text-decoration:none;font-weight:700}
+footer{text-align:center;padding:20px;color:#858ba0;border-top:1px solid var(--line);font-size:.8rem}
+@media(max-width:900px){main{grid-template-columns:1fr}.panel{order:1}.preview{order:2}.portfolio{min-height:0}}
+@media(max-width:520px){.project-grid{grid-template-columns:1fr}.hero{padding:42px 7%}.content-section{padding:27px 7%}header{padding:18px 5%}}
+</style>
+</head>
+<body>
+<header>
+  <div><div class="brand">✦ <span>AI</span> Portfolio Builder</div><p>Turn your details into a personal portfolio</p></div>
+  <div style="font-size:.82rem;color:#d0cde4">Student Project · Front-end Demo</div>
+</header>
+<main>
+  <aside class="panel">
+    <h2>Build your portfolio</h2>
+    <p class="sub">Enter your details, then select “Generate portfolio”. The preview updates instantly.</p>
+    <form id="portfolioForm">
+      <label for="name">Your full name *</label><input id="name" value="Jogesh" required placeholder="e.g. Your Name">
+      <label for="role">Headline / career goal</label><input id="role" value="Computer Science Student & Aspiring Developer" placeholder="e.g. Aspiring Web Developer">
+      <label for="location">City / location</label><input id="location" value="India" placeholder="e.g. Hyderabad, India">
+      <label for="bio">About you</label><textarea id="bio" placeholder="Write a few lines about yourself">I am a motivated student who enjoys learning technology, solving problems, and building useful projects. I am currently improving my programming and web development skills.</textarea>
+      <label for="skills">Skills (comma separated)</label><input id="skills" value="HTML, CSS, JavaScript, Python, Communication" placeholder="HTML, CSS, Python">
+      <label for="education">Education</label><input id="education" value="Bachelor's Degree / College Student" placeholder="Degree, college name">
+      <label for="year">Year / graduation</label><input id="year" value="Currently studying" placeholder="e.g. 2027">
+      <label for="projects">Projects (one per line: name - description)</label><textarea id="projects">Personal Portfolio - A website to showcase my skills and work.
+Student Task Manager - A simple idea for organizing assignments and deadlines.</textarea>
+      <label for="email">Contact email</label><input id="email" type="email" value="your.email@example.com" placeholder="you@example.com">
+      <label for="theme">Portfolio theme</label>
+      <select id="theme"><option value="purple">Purple Night</option><option value="blue">Ocean Blue</option><option value="green">Fresh Green</option></select>
+      <div class="actions"><button class="primary" type="submit">✨ Generate</button><button class="secondary" type="button" id="aiAbout">AI-style About</button></div>
+      <div class="actions"><button class="dark" type="button" id="download">Download HTML</button><button class="secondary" type="button" id="reset">Reset demo</button></div>
+    </form>
+    <div class="hint"><strong>Project note:</strong> This is a working front-end demo. “AI-style About” uses a local template, not a live AI service. A real AI integration needs an API and a secure backend.</div>
+  </aside>
+  <section class="preview">
+    <div class="preview-top"><span><span class="dots"><i></i><i></i><i></i></span> &nbsp; Live website preview</span><span id="status">Ready to customize</span></div>
+    <div class="portfolio" id="portfolio">
+      <section class="hero"><span class="pill">PORTFOLIO · <span id="heroLocation">INDIA</span></span><h1>Hi, I'm <span id="heroName">Jogesh</span>.</h1><p id="heroRole">Computer Science Student & Aspiring Developer</p><p id="heroBio">I am a motivated student who enjoys learning technology, solving problems, and building useful projects.</p><div class="hero-actions"><a href="#projects">Explore my work ↓</a><a id="heroContact" href="mailto:your.email@example.com">Contact me</a></div></section>
+      <section class="content-section"><h2 class="section-title">A little about me</h2><p class="about" id="aboutText"></p></section>
+      <section class="content-section" style="background:#fbfbfe"><h2 class="section-title">Skills & tools</h2><div class="chips" id="skillList"></div></section>
+      <section class="content-section" id="projects"><h2 class="section-title">Selected projects</h2><div class="project-grid" id="projectList"></div></section>
+      <section class="content-section"><h2 class="section-title">Education</h2><div class="education"><strong id="eduText">Bachelor's Degree / College Student</strong><span id="yearText">Currently studying</span></div></section>
+      <section class="content-section"><div class="contact"><h2 class="section-title" style="margin-bottom:8px">Let's connect</h2><div>Have an opportunity or project idea? I'd be happy to hear from you.</div><a id="contactEmail" href="mailto:your.email@example.com">your.email@example.com</a></div></section>
+      <footer>Designed with AI Portfolio Builder · <span id="footerName">Jogesh</span></footer>
+    </div>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const fields = ['name','role','location','bio','skills','education','year','projects','email','theme'];
+const defaults = {
+ name:'Jogesh', role:'Computer Science Student & Aspiring Developer', location:'India',
+ bio:'I am a motivated student who enjoys learning technology, solving problems, and building useful projects. I am currently improving my programming and web development skills.',
+ skills:'HTML, CSS, JavaScript, Python, Communication', education:"Bachelor's Degree / College Student", year:'Currently studying',
+ projects:'Personal Portfolio - A website to showcase my skills and work.\\nStudent Task Manager - A simple idea for organizing assignments and deadlines.',
+ email:'your.email@example.com', theme:'purple'
+};
+function safe(value){return String(value || '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function data(){return Object.fromEntries(fields.map(id=>[id,$(id).value.trim()]));}
+function render(){
+ const d=data(); const name=d.name||'Your Name', role=d.role||'Student & Aspiring Developer', loc=d.location||'Your Location', bio=d.bio||'Add a few details about yourself to introduce your portfolio.';
+ $('heroName').textContent=name; $('heroRole').textContent=role; $('heroLocation').textContent=loc.toUpperCase(); $('heroBio').textContent=bio;
+ $('aboutText').textContent=bio; $('eduText').textContent=d.education||'Add your education'; $('yearText').textContent=d.year||'Add graduation year';
+ $('footerName').textContent=name; $('contactEmail').textContent=d.email||'Add your email';
+ $('heroContact').href=d.email?'mailto:'+d.email:'#'; $('contactEmail').href=d.email?'mailto:'+d.email:'#';
+ $('skillList').innerHTML=(d.skills||'').split(',').map(s=>s.trim()).filter(Boolean).map(s=>'<span class="chip">'+safe(s)+'</span>').join('')||'<span class="about">Add your skills in the form.</span>';
+ const projects=(d.projects||'').split('\\n').map(line=>line.trim()).filter(Boolean).map(line=>{const i=line.indexOf(' - ');return i>=0?[line.slice(0,i),line.slice(i+3)]:[line,'A project to showcase my learning and skills.'];});
+ $('projectList').innerHTML=projects.map(p=>'<article class="project"><h3>'+safe(p[0])+'</h3><p>'+safe(p[1])+'</p></article>').join('')||'<p class="about">Add a project in the form.</p>';
+ const themes={purple:['#17152d','#38316d','#6957e8','#bcb1ff'],blue:['#10233f','#18517b','#2677bd','#a8dcff'],green:['#12332e','#216b5a','#21876d','#a7f0cf']};
+ const t=themes[d.theme]||themes.purple;document.documentElement.style.setProperty('--accent',t[2]);document.querySelector('.hero').style.background='linear-gradient(135deg,'+t[0]+','+t[1]+')';document.querySelector('.hero h1 span').style.color=t[3];
+ $('status').textContent='Preview updated';
+}
+function makeAbout(){
+ const d=data(), name=d.name||'I', role=d.role||'student', skills=(d.skills||'problem-solving').split(',').map(s=>s.trim()).filter(Boolean);
+ const skillText=skills.length>1?skills.slice(0,-1).join(', ')+' and '+skills[skills.length-1]:(skills[0]||'problem-solving');
+ $('bio').value=`Hi, I'm ${name}, a ${role.toLowerCase()} based in ${d.location||'India'}. I enjoy learning new things, working on practical challenges, and turning ideas into useful projects. My current skills include ${skillText}. I am looking forward to collaborating, gaining experience, and continuing to grow as a developer.`;
+ render();
+}
+$('portfolioForm').addEventListener('submit',e=>{e.preventDefault();render();});
+fields.forEach(id=>$(id).addEventListener('input',render));
+$('aiAbout').addEventListener('click',()=>{makeAbout();$('status').textContent='About section generated from a local template';});
+$('reset').addEventListener('click',()=>{fields.forEach(id=>$(id).value=defaults[id]);render();});
+$('download').addEventListener('click',()=>{
+ const copy=document.documentElement.cloneNode(true);
+ const originalValues=data();
+ fields.forEach(id=>{const el=copy.querySelector('#'+id);if(el)el.value=originalValues[id];});
+ const html='<!DOCTYPE html>\\n'+copy.outerHTML;
+ const blob=new Blob([html],{type:'text/html;charset=utf-8'}), url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download='my-portfolio.html';a.click();URL.revokeObjectURL(url);
+ $('status').textContent='HTML download started';
+});
+render();
+</script>
+</body>
+</html>
